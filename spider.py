@@ -5,13 +5,13 @@ SPRITES = {"up": "gfx/spider_up.png",
 "left": "gfx/spider_left.png",
 "right": "gfx/spider_up.png"}
 
-SIZE = 100
+SIZE = 50
 class Spider (pygame.sprite.Sprite):
     
     def __init__ (self):
         super(Spider, self).__init__()
 
-        self.x, self.y = 300, 300
+        self.x, self.y = 250, 250
 
         self.direction = "down"
 
@@ -21,3 +21,7 @@ class Spider (pygame.sprite.Sprite):
 
     def show (self, screen: pygame.Surface) -> None:
         screen.blit(self.image, self.rect)
+
+    def refresh (self, direction: str) -> None:
+        if direction == "up":
+            self.image = pygame.transform.rotate(self.image, 180)
