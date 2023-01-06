@@ -43,15 +43,15 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            elif event.type == KEYDOWN:
-                if event.key == K_w:
-                    game_spider.update("up", nodes)
-                elif event.key == K_s:
-                    game_spider.update("down", nodes)
-                elif event.key == K_a:
-                    game_spider.update("left", nodes)
-                elif event.key == K_d:
-                    game_spider.update("right", nodes)
+            # elif event.type == KEYDOWN:
+            #     if event.key == K_w:
+            #         game_spider.update("up", nodes)
+            #     elif event.key == K_s:
+            #         game_spider.update("down", nodes)
+            #     elif event.key == K_a:
+            #         game_spider.update("left", nodes)
+            #     elif event.key == K_d:
+            #         game_spider.update("right", nodes)
             
             elif event.type == MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -66,6 +66,17 @@ if __name__ == "__main__":
                                         game_spider.y + SIZE // 2,
                                         vector_x, vector_y,
                                         bullet_angle))
+
+        keys = pygame.key.get_pressed()
+        if keys[K_w]:
+            game_spider.update("up", nodes)
+        elif keys[K_s]:
+            game_spider.update("down", nodes)
+        elif keys[K_a]:
+            game_spider.update("left", nodes)
+        elif keys[K_d]:
+            game_spider.update("right", nodes)
+            
 
         game_screen.blit(BG, (0,0))
         n: Node

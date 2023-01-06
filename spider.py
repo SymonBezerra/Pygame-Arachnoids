@@ -4,6 +4,7 @@ from node import Node
 SPRITE = "gfx/spider.png"
 
 SIZE = 50
+SPEED = 5
 class Spider (pygame.sprite.Sprite):
     
     def __init__ (self):
@@ -33,16 +34,16 @@ class Spider (pygame.sprite.Sprite):
         new_x, new_y = self.x, self.y
 
         if direction == "up" and self.y > 50:
-            new_x, new_y = self.x, self.y - SIZE
+            new_x, new_y = self.x, self.y - SPEED
             
         elif direction == "down" and self.y < 500:
-            new_x, new_y = self.x, self.y + SIZE
+            new_x, new_y = self.x, self.y + SPEED
 
         elif direction == "left" and self.x > 150:
-            new_x, new_y = self.x - SIZE, self.y
+            new_x, new_y = self.x - SPEED, self.y
 
         elif direction == "right" and self.x < 600:
-            new_x, new_y = self.x + SIZE, self.y
+            new_x, new_y = self.x + SPEED, self.y
         
         node: Node
         for node in nodes:
