@@ -19,24 +19,25 @@ class Spider (pygame.sprite.Sprite):
     def show (self, screen: pygame.Surface) -> None:
         screen.blit(self.image, self.rect)
 
-    def update (self, direction: str) -> None:
+    def update (self, direction: str, angle: float = 0) -> None:
+        # angle just used for mouse clicking rotation
 
         # rotating the image
         if self.direction != direction:
-            self.rotate(direction)
+            self.rotate(direction, angle)
         # updating the direction
         self.direction = direction 
 
-        if direction == "up":
+        if direction == "up" and self.y > 50:
             self.y -= SIZE
             
-        elif direction == "down":
+        elif direction == "down" and self.y < 550:
             self.y += SIZE
 
-        elif direction == "left":
+        elif direction == "left" and self.x > 150:
             self.x -= SIZE
 
-        elif direction == "right":
+        elif direction == "right" and self.x < 650:
             self.x += SIZE
         self.rect.left, self.rect.top = self.x, self.y
 

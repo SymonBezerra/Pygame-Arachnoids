@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import K_w, K_s, K_a, K_d, KEYDOWN, MOUSEBUTTONDOWN
 from spider import Spider
-# 800x600 -> 50x50px sprites -> 10x10 board = 500x500px board
+# 800x600 -> 50x50px sprites -> 10x10 board = 500x50a0px board
 game_screen = pygame.display.set_mode([800, 600])
 clock = pygame.time.Clock()
 
