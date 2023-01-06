@@ -46,7 +46,7 @@ class Spider (pygame.sprite.Sprite):
         
         node: Node
         for node in nodes:
-            if node.rect.collidepoint(new_x, new_y):
+            if node.rect.collidepoint(new_x, new_y) and node.visible:
                 self.x, self.y = new_x, new_y
                 break
         

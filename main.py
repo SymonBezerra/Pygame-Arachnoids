@@ -19,6 +19,14 @@ nodes.add(Node(1,3))
 nodes.add(Node(1,5))
 nodes.add(Node(3,3))
 nodes.add(Node(3,5))
+
+for i in range(10):
+    for j in range(10):
+        node = Node(i,j)
+        nodes.add(node)
+        if (i,j) in ((2,4), (2,5), (2,3), (3,4), (1,4), 
+        (1,3), (1,5), (3,3), (3,5)): # initial grid
+            node.visible = True
 if __name__ == "__main__":
     pygame.init()
 
