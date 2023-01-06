@@ -8,11 +8,15 @@ clock = pygame.time.Clock()
 
 game_spider = Spider()
 nodes = pygame.sprite.Group()
-for i in range (10):
-    for j in range(10):
-        # testing move
-        # if i % 2 == 0:
-            nodes.add(Node(i, j))
+nodes.add(Node(2,4))
+nodes.add(Node(2,5))
+nodes.add(Node(2,3))
+nodes.add(Node(3,4))
+nodes.add(Node(1,4))
+nodes.add(Node(1,3))
+nodes.add(Node(1,5))
+nodes.add(Node(3,3))
+nodes.add(Node(3,5))
 if __name__ == "__main__":
     pygame.init()
 
