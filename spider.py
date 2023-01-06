@@ -1,4 +1,5 @@
 import pygame
+from node import Node
 
 SPRITE = "gfx/spider_down.png"
 
@@ -19,7 +20,8 @@ class Spider (pygame.sprite.Sprite):
     def show (self, screen: pygame.Surface) -> None:
         screen.blit(self.image, self.rect)
 
-    def update (self, direction: str, angle: float = 0) -> None:
+    def update (self, direction: str, nodes: pygame.sprite.Group, 
+    angle: float = 0):
         # angle just used for mouse clicking rotation
 
         # rotating the image
@@ -28,17 +30,26 @@ class Spider (pygame.sprite.Sprite):
         # updating the direction
         self.direction = direction 
 
+        new_x, new_y = self.x, self.y
+
         if direction == "up" and self.y > 50:
-            self.y -= SIZE
+            new_x, new_y = self.x, self.y - SIZE
             
-        elif direction == "down" and self.y < 550:
-            self.y += SIZE
+        elif direction == "down" and self.y < 500:
+            new_x, new_y = self.x, self.y + SIZE
 
         elif direction == "left" and self.x > 150:
-            self.x -= SIZE
+            new_x, new_y = self.x - SIZE, self.y
 
-        elif direction == "right" and self.x < 650:
-            self.x += SIZE
+        elif direction == "right" and self.x < 600:
+            new_x, new_y = self.x + SIZE, self.y
+        
+        node: Node
+        for node in nodes:
+            if node.rect.collidepoint(new_x, new_y):
+                self.x, self.y = new_x, new_y
+                break
+        
         self.rect.left, self.rect.top = self.x, self.y
 
     def rotate(self, direction: str, angle: float) -> None:
