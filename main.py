@@ -8,6 +8,8 @@ clock = pygame.time.Clock()
 
 game_spider = Spider()
 nodes = pygame.sprite.Group()
+
+# initial node grid 
 nodes.add(Node(2,4))
 nodes.add(Node(2,5))
 nodes.add(Node(2,3))
