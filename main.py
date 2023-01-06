@@ -6,6 +6,7 @@ from projectile import Projectile
 from node import Node
 # 800x600 -> 50x50px sprites -> 10x10 board = 500x50a0px board
 game_screen = pygame.display.set_mode([800, 600])
+pygame.display.set_caption("Arachnoids")
 clock = pygame.time.Clock()
 
 BG = pygame.image.load("gfx/background.png").convert()
