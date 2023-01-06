@@ -1,4 +1,5 @@
 import pygame
+import math
 from pygame.locals import K_w, K_s, K_a, K_d, KEYDOWN, MOUSEBUTTONDOWN
 from spider import Spider
 from node import Node
@@ -45,7 +46,14 @@ if __name__ == "__main__":
                     game_spider.update("left", nodes)
                 elif event.key == K_d:
                     game_spider.update("right", nodes)
-        
+            
+            elif event.type == MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                vector_x, vector_y = mouse_x - game_spider.x, mouse_y - game_spider.y
+                bullet_angle = math.degrees(math.atan2(-vector_y, +vector_x))
+                game_spider.rotate("-", bullet_angle)
+
+
         game_screen.fill((0,0,0)) # placeholder bg
         n: Node
         for n in nodes:

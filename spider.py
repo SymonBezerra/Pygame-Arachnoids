@@ -1,7 +1,7 @@
 import pygame
 from node import Node
 
-SPRITE = "gfx/spider_down.png"
+SPRITE = "gfx/spider.png"
 
 SIZE = 50
 class Spider (pygame.sprite.Sprite):
@@ -28,7 +28,7 @@ class Spider (pygame.sprite.Sprite):
         if self.direction != direction:
             self.rotate(direction, angle)
         # updating the direction
-        self.direction = direction 
+            self.direction = direction 
 
         new_x, new_y = self.x, self.y
 
@@ -53,19 +53,20 @@ class Spider (pygame.sprite.Sprite):
         self.rect.left, self.rect.top = self.x, self.y
 
     def rotate(self, direction: str, angle: float) -> None:
-        if direction == "up":
+        self.image = pygame.image.load(SPRITE).convert_alpha()
+        if direction == "down":
             self.image = pygame.transform.rotate(self.sprite, 180)
         
-        elif direction == "down":
-            self.image = pygame.image.load(SPRITE).convert_alpha()
-
-        elif direction == "left":
-            self.image = pygame.transform.rotate(self.sprite, 270)
+        elif direction == "up":
+            pass
 
         elif direction == "right":
+            self.image = pygame.transform.rotate(self.sprite, 270)
+
+        elif direction == "left":
             self.image = pygame.transform.rotate(self.sprite, 90)
 
         elif direction == "-":
-            self.image = pygame.transform.rotate(self.sprite, angle)
+            self.image = pygame.transform.rotate(self.sprite, angle - 90)
         
         self.image = pygame.transform.scale(self.image, (SIZE, SIZE))
