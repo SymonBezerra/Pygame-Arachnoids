@@ -1,7 +1,8 @@
 import pygame
 import math
 from pygame.locals import K_w, K_s, K_a, K_d, KEYDOWN, MOUSEBUTTONDOWN
-from spider import Spider
+from spider import Spider, SIZE
+from projectile import Projectile
 from node import Node
 # 800x600 -> 50x50px sprites -> 10x10 board = 500x50a0px board
 game_screen = pygame.display.set_mode([800, 600])
@@ -28,6 +29,8 @@ for i in range(10):
         if (i,j) in ((2,4), (2,5), (2,3), (3,4), (1,4), 
         (1,3), (1,5), (3,3), (3,5)): # initial grid
             node.visible = True
+
+bullets = pygame.sprite.Group()
 if __name__ == "__main__":
     pygame.init()
 
@@ -51,14 +54,31 @@ if __name__ == "__main__":
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 vector_x, vector_y = mouse_x - game_spider.x, mouse_y - game_spider.y
                 bullet_angle = math.degrees(math.atan2(-vector_y, +vector_x))
+                
+                # rotating the spider
                 game_spider.rotate("-", bullet_angle)
 
+                # creating the Projectile
+                bullets.add(Projectile(game_spider.x + SIZE // 2,
+                                        game_spider.y + SIZE // 2,
+                                        vector_x, vector_y,
+                                        bullet_angle))
 
         game_screen.fill((0,0,0)) # placeholder bg
         n: Node
         for n in nodes:
             if n.visible == True:
                 n.show(game_screen)
+
+        bullet: Projectile
+        for bullet in bullets:
+            if bullet.x > 800 or bullet.x < 0 or bullet.y > 600 or bullet.y < 0:
+                bullets.remove(bullet)
+            else:
+                bullet.update()
+                bullet.show(game_screen)
+
+
         game_spider.show(game_screen)
 
         clock.tick(30)
