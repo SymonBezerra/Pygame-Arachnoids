@@ -8,6 +8,8 @@ from node import Node
 game_screen = pygame.display.set_mode([800, 600])
 clock = pygame.time.Clock()
 
+BG = pygame.image.load("gfx/background.png").convert()
+
 game_spider = Spider()
 nodes = pygame.sprite.Group()
 
@@ -64,7 +66,7 @@ if __name__ == "__main__":
                                         vector_x, vector_y,
                                         bullet_angle))
 
-        game_screen.fill((0,0,0)) # placeholder bg
+        game_screen.blit(BG, (0,0))
         n: Node
         for n in nodes:
             if n.visible == True:
@@ -75,6 +77,10 @@ if __name__ == "__main__":
             if bullet.x > 800 or bullet.x < 0 or bullet.y > 600 or bullet.y < 0:
                 bullets.remove(bullet)
             else:
+                n: Node
+                for n in nodes:
+                    if bullet.rect.colliderect(n.rect):
+                        n.visible = True
                 bullet.update()
                 bullet.show(game_screen)
 
