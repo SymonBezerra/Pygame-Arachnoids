@@ -23,29 +23,37 @@ class Spider (pygame.sprite.Sprite):
         screen.blit(self.image, self.rect)
 
     def update (self, direction: str) -> None:
+
+        # rotating the image
+        if self.direction != direction:
+            self.rotate(direction)
+        # updating the direction
+        self.direction = direction 
+
         if direction == "up":
             self.y -= SIZE
-            if direction != self.direction:
-                self.image = pygame.transform.rotate(self.sprite, 180)
-            else: self.direction = direction
         
         elif direction == "down":
             self.y += SIZE
-            if direction != self.direction:
-                self.image = pygame.image.load(SPRITES["down"]).convert_alpha()
-            else: self.direction = direction
 
         elif direction == "left":
             self.x -= SIZE
-            if direction != self.direction:
-                self.image = pygame.transform.rotate(self.sprite, 270)
-            else: self.direction = direction
 
         elif direction == "right":
             self.x += SIZE
-            if direction != self.direction:
-                self.image = pygame.transform.rotate(self.sprite, 90)
-            else: self.direction = direction
+        self.rect.left, self.rect.top = self.x, self.y
+
+    def rotate(self, direction):
+        if direction == "up":
+            self.image = pygame.transform.rotate(self.sprite, 180)
+        
+        elif direction == "down":
+            self.image = pygame.image.load(SPRITES["down"]).convert_alpha()
+
+        elif direction == "left":
+            self.image = pygame.transform.rotate(self.sprite, 270)
+
+        elif direction == "right":
+            self.image = pygame.transform.rotate(self.sprite, 90)
         
         self.image = pygame.transform.scale(self.image, (SIZE, SIZE))
-        self.rect.left, self.rect.top = self.x, self.y

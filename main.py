@@ -28,5 +28,7 @@ if __name__ == "__main__":
         game_screen.fill((0,0,0)) # placeholder bg
         game_spider.show(game_screen)
 
+        clock.tick(30)
+        
         pygame.display.flip()
     
