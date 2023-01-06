@@ -29,7 +29,7 @@ class Spider (pygame.sprite.Sprite):
 
         if direction == "up":
             self.y -= SIZE
-        
+            
         elif direction == "down":
             self.y += SIZE
 
@@ -40,7 +40,7 @@ class Spider (pygame.sprite.Sprite):
             self.x += SIZE
         self.rect.left, self.rect.top = self.x, self.y
 
-    def rotate(self, direction):
+    def rotate(self, direction: str, angle: float) -> None:
         if direction == "up":
             self.image = pygame.transform.rotate(self.sprite, 180)
         
@@ -52,5 +52,8 @@ class Spider (pygame.sprite.Sprite):
 
         elif direction == "right":
             self.image = pygame.transform.rotate(self.sprite, 90)
+
+        elif direction == "-":
+            self.image = pygame.transform.rotate(self.sprite, angle)
         
         self.image = pygame.transform.scale(self.image, (SIZE, SIZE))
