@@ -1,9 +1,6 @@
 import pygame
 
-SPRITES = {"up": "gfx/spider_up.png",
-"down": "gfx/spider_down.png",
-"left": "gfx/spider_left.png",
-"right": "gfx/spider_up.png"}
+SPRITE = "gfx/spider_down.png"
 
 SIZE = 50
 class Spider (pygame.sprite.Sprite):
@@ -15,7 +12,7 @@ class Spider (pygame.sprite.Sprite):
 
         self.direction = "down"
 
-        self.sprite = pygame.image.load(SPRITES["down"]).convert_alpha()
+        self.sprite = pygame.image.load(SPRITE).convert_alpha()
         self.image = pygame.transform.scale(self.sprite, (SIZE, SIZE))
         self.rect = pygame.Rect(self.x, self.y, SIZE, SIZE)
 
@@ -48,7 +45,7 @@ class Spider (pygame.sprite.Sprite):
             self.image = pygame.transform.rotate(self.sprite, 180)
         
         elif direction == "down":
-            self.image = pygame.image.load(SPRITES["down"]).convert_alpha()
+            self.image = pygame.image.load(SPRITE).convert_alpha()
 
         elif direction == "left":
             self.image = pygame.transform.rotate(self.sprite, 270)
