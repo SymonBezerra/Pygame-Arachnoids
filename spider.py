@@ -21,29 +21,21 @@ class Spider (pygame.sprite.Sprite):
     def show (self, screen: pygame.Surface) -> None:
         screen.blit(self.image, self.rect)
 
-    def update (self, direction: str, nodes: pygame.sprite.Group, 
-    angle: float = 0):
-        # angle just used for mouse clicking rotation
-
-        # rotating the image
-        if self.direction != direction:
-            self.rotate(direction, angle)
-        # updating the direction
-            self.direction = direction 
+    def update (self, directions: list, nodes: pygame.sprite.Group):
 
         new_x, new_y = self.x, self.y
 
-        if direction == "up" and self.y > 50:
-            new_x, new_y = self.x, self.y - SPEED
+        if "up" in directions and self.y > 50:
+            new_y = self.y - SPEED
             
-        elif direction == "down" and self.y < 500:
-            new_x, new_y = self.x, self.y + SPEED
+        elif "down" in directions and self.y < 500:
+            new_y = self.y + SPEED
 
-        elif direction == "left" and self.x > 150:
-            new_x, new_y = self.x - SPEED, self.y
+        if "left" in directions and self.x > 150:
+            new_x = self.x - SPEED
 
-        elif direction == "right" and self.x < 600:
-            new_x, new_y = self.x + SPEED, self.y
+        elif "right" in directions and self.x < 600:
+            new_x = self.x + SPEED
         
         node: Node
         for node in nodes:
@@ -53,21 +45,7 @@ class Spider (pygame.sprite.Sprite):
         
         self.rect.left, self.rect.top = self.x, self.y
 
-    def rotate(self, direction: str, angle: float) -> None:
+    def rotate(self, angle: float) -> None:
         self.image = pygame.image.load(SPRITE).convert_alpha()
-        if direction == "down":
-            self.image = pygame.transform.rotate(self.sprite, 180)
-        
-        elif direction == "up":
-            pass
-
-        elif direction == "right":
-            self.image = pygame.transform.rotate(self.sprite, 270)
-
-        elif direction == "left":
-            self.image = pygame.transform.rotate(self.sprite, 90)
-
-        elif direction == "-":
-            self.image = pygame.transform.rotate(self.sprite, angle - 90)
-        
+        self.image = pygame.transform.rotate(self.sprite, angle - 90)
         self.image = pygame.transform.scale(self.image, (SIZE, SIZE))

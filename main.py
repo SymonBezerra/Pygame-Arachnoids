@@ -59,7 +59,7 @@ if __name__ == "__main__":
                 bullet_angle = math.degrees(math.atan2(-vector_y, +vector_x))
                 
                 # rotating the spider
-                game_spider.rotate("-", bullet_angle)
+                game_spider.rotate(bullet_angle)
 
                 # creating the Projectile
                 bullets.add(Projectile(game_spider.x + SIZE // 2,
@@ -68,15 +68,18 @@ if __name__ == "__main__":
                                         bullet_angle))
 
         keys = pygame.key.get_pressed()
-        if keys[K_w]:
-            game_spider.update("up", nodes)
-        elif keys[K_s]:
-            game_spider.update("down", nodes)
-        elif keys[K_a]:
-            game_spider.update("left", nodes)
-        elif keys[K_d]:
-            game_spider.update("right", nodes)
-            
+        directions = []
+        if keys[K_w] and not keys[K_s]:
+            directions.append("up")
+        if keys[K_s] and not keys[K_w]:
+            directions.append("down")
+        if keys[K_a] and not keys[K_d]:
+            directions.append("left")
+        if keys[K_d] and not keys[K_a]:
+            directions.append("right")
+    
+        
+        game_spider.update(directions, nodes)
 
         game_screen.blit(BG, (0,0))
         n: Node
