@@ -79,7 +79,7 @@ if __name__ == "__main__":
             else:
                 n: Node
                 for n in nodes:
-                    if bullet.rect.colliderect(n.rect):
+                    if bullet.rect.collidepoint(n.rect.x + 25, n.rect.y + 25):
                         n.visible = True
                 bullet.update()
                 bullet.show(game_screen)
