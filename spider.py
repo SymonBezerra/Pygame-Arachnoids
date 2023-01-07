@@ -27,7 +27,7 @@ class Spider (pygame.sprite.Sprite):
 
         if "up" in directions and self.y > 50:
             new_y = self.y - SPEED
-            
+
         elif "down" in directions and self.y < 500:
             new_y = self.y + SPEED
 
@@ -39,7 +39,7 @@ class Spider (pygame.sprite.Sprite):
         
         node: Node
         for node in nodes:
-            if node.rect.collidepoint(new_x, new_y) and node.visible:
+            if node.rect.collidepoint(new_x + SIZE // 2, new_y + SIZE // 2) and node.visible:
                 self.x, self.y = new_x, new_y
                 break
         
