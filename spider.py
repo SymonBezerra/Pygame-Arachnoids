@@ -15,6 +15,9 @@ class Spider (pygame.sprite.Sprite):
         self.lives = 3
         self.score = 0
 
+        self.living = True
+        self.respawn_count = 0
+
         self.direction = "down"
 
         self.sprite = pygame.image.load(SPRITE).convert_alpha()

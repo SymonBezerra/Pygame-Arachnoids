@@ -5,14 +5,17 @@ from random import randint
 SPRITE = "gfx/bug.png"
 SIZE = 25
 SPEED = 0.015
+DIRECTIONS = {0: "up", 1: "down", 2: "left", 3: "right"}
 
 class Enemy(pygame.sprite.Sprite):
 
     def __init__(self):
         super(Enemy, self).__init__()
 
-        self.x, self.y = self.__random_spawn()
-        self.vx, self.vy = self.__random_vector()
+        self.direction = DIRECTIONS[randint(0,3)]
+
+        self.x, self.y = self.__random_spawn(self.direction)
+        self.vx, self.vy = self.__random_vector(self.direction)
 
         vector_x, vector_y = self.vx - self.x, self.vy - self.y
         self.angle = math.degrees(math.atan2(-vector_y, vector_x))
@@ -40,17 +43,23 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.left, self.rect.top = self.x, self.y
 
-    def __random_spawn(self) -> tuple:
-        ORIGINS = {0: "up", 1: "down", 2: "left", 3: "right"}
-        origin = randint(0,3)
-        if ORIGINS[origin] == "up":
+    def __random_spawn(self, direction: str) -> tuple:
+        if direction == "up":
             return (randint(150,600), 0)
-        elif ORIGINS[origin] == "down":
+        elif direction == "down":
             return (randint(150,600), 550)
-        elif ORIGINS[origin] == "left":
+        elif direction == "left":
             return (150, randint(0, 550))
-        elif ORIGINS[origin] == "right":
+        elif direction == "right":
             return (600, randint(0, 550))
     
-    def __random_vector (self) -> tuple:
-        return (50 + (randint(0,9) * 50), 50 + (randint(0,9) * 50))
+    def __random_vector (self, direction: str) -> tuple:
+        # if up -> down, and vice versa
+        if direction == "down":
+            return (150 + (randint(0,9) * 50), 50)
+        elif direction == "up":
+            return (150 + (randint(0,9) * 50), 500)
+        elif direction == "right":
+            return (150, 50 + (randint(0,9) * 50))
+        elif direction == "left":
+            return (600, 50 + (randint(0,9) * 50))

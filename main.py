@@ -38,10 +38,12 @@ for i in range(10):
             node.visible = True
 
 game_wave = 5
+wave_number = 1
 
 bullets = pygame.sprite.Group()
 if __name__ == "__main__":
     pygame.init()
+    GAME_FONT = pygame.font.Font("gfx/FiraCode-VariableFont_wght.ttf", 20)
 
     wave_count = 0
     running = True
@@ -50,7 +52,7 @@ if __name__ == "__main__":
     while running:
 
         if title_screen:
-            start_button = pygame.Rect(320, 220, 160, 80)s
+            start_button = pygame.Rect(320, 220, 160, 80)
             howto_button = pygame.Rect(320, 327, 160, 80)
             exit_button = pygame.Rect(320, 434, 160, 80)
             if howto_screen:
@@ -88,7 +90,7 @@ if __name__ == "__main__":
                 #     elif event.key == K_d:s
                 #         game_spider.update("right", nodes)
                 
-                elif event.type == MOUSEBUTTONDOWN:
+                elif event.type == MOUSEBUTTONDOWN and game_spider.living:
                     mouse_x, mouse_y = pygame.mouse.get_pos()
                     vector_x, vector_y = mouse_x - game_spider.x, mouse_y - game_spider.y
                     bullet_angle = math.degrees(math.atan2(-vector_y, +vector_x))
@@ -113,8 +115,7 @@ if __name__ == "__main__":
             if keys[K_d] and not keys[K_a]:
                 directions.append("right")
         
-            
-            game_spider.update(directions, nodes)
+            if game_spider.living: game_spider.update(directions, nodes)
 
             game_screen.blit(BG, (0,0))
             n: Node
@@ -137,6 +138,7 @@ if __name__ == "__main__":
                     for e in enemies:
                         if e.rect.colliderect(bullet.rect):
                             enemies.remove(e)
+                            game_spider.score += 10
                     bullet.update()
                     bullet.show(game_screen)
 
@@ -147,21 +149,43 @@ if __name__ == "__main__":
                     game_wave += 5
                 elif wave_count > 100:
                     for i in range (game_wave): enemies.add(Enemy())
-                    game_wave += 5
+                    if game_wave < 30: game_wave += 5
+                    wave_number += 1
                     wave_count = 0
                 else: wave_count += 1
             for enemy in enemies:
-                if enemy.rect.colliderect(game_spider.rect):
-                    running = False
+                if enemy.rect.colliderect(game_spider.rect) and game_spider.living:
+                    game_spider.lives -= 1
+                    game_spider.living = False
                 n: Node
                 for n in nodes:
-                    if enemy.rect.collidepoint(n.rect.x + 25, n.rect.y + 25):
+                    if enemy.rect.collidepoint(n.rect.x + 25, n.rect.y + 25) and game_spider.living:
                         n.visible = False
                 else:
                     enemy.update()
                     enemy.show(game_screen)
 
-            game_spider.show(game_screen)
+            if game_spider.lives < 1:
+                running = False
+
+            if game_spider.living:
+                game_spider.show(game_screen)
+            else:
+                if game_spider.respawn_count < 100:
+                    game_spider.respawn_count += 1
+                else:
+                    game_spider.living = True
+                    game_spider.respawn_count = 0
+            display_score = GAME_FONT.render(str(game_spider.score), 
+                            True, (255, 255, 255))
+            game_screen.blit(display_score, (19,83))
+            display_wave = GAME_FONT.render(str(wave_number), 
+                            True, (255, 255, 255))
+            game_screen.blit(display_wave, (19,170))
+
+            display_lives = GAME_FONT.render(str(game_spider.lives),
+                            True, (255, 255, 255))   
+            game_screen.blit(display_lives, (19,269))                         
 
             clock.tick(30)
             
