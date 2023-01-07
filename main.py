@@ -46,16 +46,34 @@ if __name__ == "__main__":
     wave_count = 0
     running = True
     title_screen = True
-    how_to_screen = False
+    howto_screen = False
     while running:
 
         if title_screen:
-            game_screen.blit(TITLE, (0,0))
+            start_button = pygame.Rect(320, 220, 160, 80)s
+            howto_button = pygame.Rect(320, 327, 160, 80)
+            exit_button = pygame.Rect(320, 434, 160, 80)
+            if howto_screen:
+                game_screen.blit(HOW_TO, (0,0))
+            else:
+                game_screen.blit(TITLE, (0,0))
+
             for event in pygame.event.get():
                 if event.type == MOUSEBUTTONDOWN:
-                    title_screen = False
-            pygame.display.flip()
+                    mouse_pos = pygame.mouse.get_pos()
+                    if start_button.collidepoint(mouse_pos) and not howto_screen:
+                        title_screen = False
+                    elif howto_button.collidepoint(mouse_pos) and not howto_screen:
+                        howto_screen = True
+                    elif exit_button.collidepoint(mouse_pos) and not howto_screen:
+                        pygame.quit()
+                    elif howto_screen:
+                        howto_screen = False
+                elif event.type == pygame.QUIT:
+                    pygame.quit()
             
+            pygame.display.flip()
+
         else:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
