@@ -13,21 +13,26 @@ clock = pygame.time.Clock()
 BG = pygame.image.load("gfx/background.png").convert()
 TITLE = pygame.image.load("gfx/title_screen.png").convert()
 HOW_TO = pygame.image.load("gfx/how_to.png").convert()
+END_SCREEN = pygame.image.load("gfx/end_screen.png").convert()
 
 game_spider = Spider()
 nodes = pygame.sprite.Group()
 enemies = pygame.sprite.Group()
 
-# initial node grid 
-nodes.add(Node(2,4))
-nodes.add(Node(2,5))
-nodes.add(Node(2,3))
-nodes.add(Node(3,4))
-nodes.add(Node(1,4))
-nodes.add(Node(1,3))
-nodes.add(Node(1,5))
-nodes.add(Node(3,3))
-nodes.add(Node(3,5))
+def start_nodes() -> None:
+    nodes.empty()
+    # initial node grid 
+    nodes.add(Node(2,4))
+    nodes.add(Node(2,5))
+    nodes.add(Node(2,3))
+    nodes.add(Node(3,4))
+    nodes.add(Node(1,4))
+    nodes.add(Node(1,3))
+    nodes.add(Node(1,5))
+    nodes.add(Node(3,3))
+    nodes.add(Node(3,5))
+
+start_nodes()
 
 for i in range(10):
     for j in range(10):
@@ -49,6 +54,7 @@ if __name__ == "__main__":
     running = True
     title_screen = True
     howto_screen = False
+    game_over = False
     while running:
 
         if title_screen:
@@ -76,7 +82,7 @@ if __name__ == "__main__":
             
             pygame.display.flip()
 
-        else:
+        elif not game_over:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -159,23 +165,26 @@ if __name__ == "__main__":
                     game_spider.living = False
                 n: Node
                 for n in nodes:
-                    if enemy.rect.collidepoint(n.rect.x + 25, n.rect.y + 25) and game_spider.living:
+                    if enemy.rect.collidepoint(n.rect.x + 25, n.rect.y + 25) and game_spider.living and game_spider.respawn_count == 0:
                         n.visible = False
                 else:
                     enemy.update()
                     enemy.show(game_screen)
 
             if game_spider.lives < 1:
-                running = False
+                game_over = True
 
             if game_spider.living:
                 game_spider.show(game_screen)
+                
+                # respawn temporary invicibility
+                if game_spider.respawn_count > 0:
+                    game_spider.respawn_count -= 1
             else:
                 if game_spider.respawn_count < 100:
                     game_spider.respawn_count += 1
                 else:
                     game_spider.living = True
-                    game_spider.respawn_count = 0
             display_score = GAME_FONT.render(str(game_spider.score), 
                             True, (255, 255, 255))
             game_screen.blit(display_score, (19,83))
@@ -191,3 +200,29 @@ if __name__ == "__main__":
             
             pygame.display.flip()
     
+        elif game_over:
+            return_button = pygame.Rect(320, 434, 160, 80)
+            game_screen.blit(END_SCREEN, (0,0))
+            display_score = GAME_FONT.render(str(game_spider.score), 
+                            True, (255, 255, 255))
+            game_screen.blit(display_score, (436, 270))
+            display_wave = GAME_FONT.render(str(wave_number), 
+                            True, (255, 255, 255))
+            game_screen.blit(display_wave, (436,330))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                elif event.type == MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if return_button.collidepoint(mouse_pos):
+                        game_over, title_screen = False, True
+                        game_spider.score = 0
+                        game_spider.rect.x = 250
+                        game_spider.rect.y = 250
+                        game_wave = 5
+                        wave_number = 1
+                        game_spider.lives = 3
+                        start_nodes()
+                        enemies.empty()
+                        
+            pygame.display.flip()
