@@ -160,12 +160,12 @@ if __name__ == "__main__":
                     wave_count = 0
                 else: wave_count += 1
             for enemy in enemies:
-                if enemy.rect.colliderect(game_spider.rect) and game_spider.living:
+                if enemy.rect.colliderect(game_spider.rect) and game_spider.living and game_spider.respawn_count == 0:
                     game_spider.lives -= 1
                     game_spider.living = False
                 n: Node
                 for n in nodes:
-                    if enemy.rect.collidepoint(n.rect.x + 25, n.rect.y + 25) and game_spider.living and game_spider.respawn_count == 0:
+                    if enemy.rect.collidepoint(n.rect.x + 25, n.rect.y + 25) and game_spider.living:
                         n.visible = False
                 else:
                     enemy.update()
