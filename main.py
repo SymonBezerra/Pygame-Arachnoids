@@ -3,6 +3,7 @@ import math
 from pygame.locals import K_w, K_s, K_a, K_d, KEYDOWN, MOUSEBUTTONDOWN
 from spider import Spider, SIZE
 from projectile import Projectile
+from enemy import Enemy
 from node import Node
 # 800x600 -> 50x50px sprites -> 10x10 board = 500x50a0px board
 game_screen = pygame.display.set_mode([800, 600])
@@ -13,6 +14,7 @@ BG = pygame.image.load("gfx/background.png").convert()
 
 game_spider = Spider()
 nodes = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
 
 # initial node grid 
 nodes.add(Node(2,4))
@@ -53,7 +55,7 @@ if __name__ == "__main__":
             #     elif event.key == K_d:
             #         game_spider.update("right", nodes)
             
-            elif event.type == MOUSEBUTTONDOWN:
+            elif event.type == MOUSEBUTTONDOWN and len(bullets) < 5:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 vector_x, vector_y = mouse_x - game_spider.x, mouse_y - game_spider.y
                 bullet_angle = math.degrees(math.atan2(-vector_y, +vector_x))
@@ -96,9 +98,27 @@ if __name__ == "__main__":
                 for n in nodes:
                     if bullet.rect.collidepoint(n.rect.x + 25, n.rect.y + 25):
                         n.visible = True
+                
+                e: Enemy
+                for e in enemies:
+                    if e.rect.colliderect(bullet.rect):
+                        enemies.remove(e)
                 bullet.update()
                 bullet.show(game_screen)
 
+        enemy: Enemy
+        if len(enemies) == 0:
+            for i in range (5): enemies.add(Enemy())
+        for enemy in enemies:
+            if enemy.rect.colliderect(game_spider.rect):
+                running = False
+            n: Node
+            for n in nodes:
+                if enemy.rect.collidepoint(n.rect.x + 25, n.rect.y + 25):
+                    n.visible = False
+            else:
+                enemy.update()
+                enemy.show(game_screen)
 
         game_spider.show(game_screen)
 

@@ -12,7 +12,6 @@ class Projectile(pygame.sprite.Sprite):
 
         self.x, self.y = x, y
         self.vx, self.vy = vx, vy
-        self.rect = (x, y, 50, 10)
 
         self.angle = angle
 
