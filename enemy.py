@@ -44,13 +44,13 @@ class Enemy(pygame.sprite.Sprite):
         ORIGINS = {0: "up", 1: "down", 2: "left", 3: "right"}
         origin = randint(0,3)
         if ORIGINS[origin] == "up":
-            return (0, randint(100, 650))
+            return (randint(150,600), 0)
         elif ORIGINS[origin] == "down":
-            return (550, randint(100, 650))
+            return (randint(150,600), 550)
         elif ORIGINS[origin] == "left":
-            return (randint(0, 550), 100)
+            return (150, randint(0, 550))
         elif ORIGINS[origin] == "right":
-            return (randint(0, 550), 650)
+            return (660, randint(0, 550))
     
     def __random_vector (self) -> tuple:
         return (50 + (randint(0,9) * 50), 50 + (randint(0,9) * 50))

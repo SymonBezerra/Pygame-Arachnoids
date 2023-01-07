@@ -112,7 +112,10 @@ if __name__ == "__main__":
 
         enemy: Enemy
         if len(enemies) == 0:
-            if wave_count < 500:
+            if game_wave == 5:
+                for i in range (game_wave): enemies.add(Enemy())
+                game_wave += 5
+            elif wave_count > 100:
                 for i in range (game_wave): enemies.add(Enemy())
                 game_wave += 5
                 wave_count = 0
