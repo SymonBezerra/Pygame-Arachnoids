@@ -12,8 +12,6 @@ class Node (pygame.sprite.Sprite):
 
         self.visible = False
 
-        self.time = 0
-
         self.image = pygame.image.load(SPRITE).convert_alpha()
         self.image = pygame.transform.scale(self.image, (SIZE - 10, SIZE - 10))
         self.rect = pygame.Rect(START_X + (SIZE * x), 

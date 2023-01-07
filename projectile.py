@@ -21,6 +21,8 @@ class Projectile(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.image, angle - 90)
         self.image = pygame.transform.scale(self.image, (SIZE, SIZE))
 
+        self.time = 0
+
     def show (self, screen: pygame.Surface) -> None:
         screen.blit(self.image, self.rect)
 

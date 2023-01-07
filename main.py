@@ -94,9 +94,10 @@ if __name__ == "__main__":
 
         bullet: Projectile
         for bullet in bullets:
-            if bullet.x > 800 or bullet.x < 0 or bullet.y > 600 or bullet.y < 0:
+            if bullet.x > 800 or bullet.x < 0 or bullet.y > 600 or bullet.y < 0 or bullet.time > 50:
                 bullets.remove(bullet)
             else:
+                bullet.time += 1
                 n: Node
                 for n in nodes:
                     if bullet.rect.collidepoint(n.rect.x + 25, n.rect.y + 25):
