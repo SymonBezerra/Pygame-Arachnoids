@@ -35,10 +35,13 @@ for i in range(10):
         (1,3), (1,5), (3,3), (3,5)): # initial grid
             node.visible = True
 
+game_wave = 5
+
 bullets = pygame.sprite.Group()
 if __name__ == "__main__":
     pygame.init()
 
+    wave_count = 0
     running = True
     while running:
 
@@ -52,10 +55,10 @@ if __name__ == "__main__":
             #         game_spider.update("down", nodes)
             #     elif event.key == K_a:
             #         game_spider.update("left", nodes)
-            #     elif event.key == K_d:
+            #     elif event.key == K_d:s
             #         game_spider.update("right", nodes)
             
-            elif event.type == MOUSEBUTTONDOWN and len(bullets) < 5:
+            elif event.type == MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 vector_x, vector_y = mouse_x - game_spider.x, mouse_y - game_spider.y
                 bullet_angle = math.degrees(math.atan2(-vector_y, +vector_x))
@@ -108,7 +111,11 @@ if __name__ == "__main__":
 
         enemy: Enemy
         if len(enemies) == 0:
-            for i in range (5): enemies.add(Enemy())
+            if wave_count < 500:
+                for i in range (game_wave): enemies.add(Enemy())
+                game_wave += 5
+                wave_count = 0
+            else: wave_count += 1
         for enemy in enemies:
             if enemy.rect.colliderect(game_spider.rect):
                 running = False

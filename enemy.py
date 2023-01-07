@@ -48,9 +48,9 @@ class Enemy(pygame.sprite.Sprite):
         elif ORIGINS[origin] == "down":
             return (550, randint(100, 650))
         elif ORIGINS[origin] == "left":
-            return (100, randint(0, 550))
+            return (randint(0, 550), 100)
         elif ORIGINS[origin] == "right":
-            return (650, randint(0, 550))
+            return (randint(0, 550), 650)
     
     def __random_vector (self) -> tuple:
         return (50 + (randint(0,9) * 50), 50 + (randint(0,9) * 50))
