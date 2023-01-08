@@ -15,6 +15,7 @@ TITLE = pygame.image.load("gfx/title_screen.png").convert()
 HOW_TO = pygame.image.load("gfx/how_to.png").convert()
 END_SCREEN = pygame.image.load("gfx/end_screen.png").convert()
 
+
 game_spider = Spider()
 nodes = pygame.sprite.Group()
 enemies = pygame.sprite.Group()
@@ -48,6 +49,13 @@ wave_number = 1
 bullets = pygame.sprite.Group()
 if __name__ == "__main__":
     pygame.init()
+    pygame.mixer.init()
+
+    BUTTON_SFX = pygame.mixer.Sound("sfx/button_select.wav")
+    WAVE_SFX = pygame.mixer.Sound("sfx/new_wave.wav")
+    BULLET_SFX = pygame.mixer.Sound("sfx/projectile_shoot.wav")
+    DEATH_SFX = pygame.mixer.Sound("sfx/spider_death.wav")
+
     GAME_FONT = pygame.font.Font("gfx/FiraCode-VariableFont_wght.ttf", 20)
 
     wave_count = 0
@@ -71,12 +79,16 @@ if __name__ == "__main__":
                     mouse_pos = pygame.mouse.get_pos()
                     if start_button.collidepoint(mouse_pos) and not howto_screen:
                         title_screen = False
+                        pygame.mixer.Sound.play(BUTTON_SFX)
                     elif howto_button.collidepoint(mouse_pos) and not howto_screen:
                         howto_screen = True
+                        pygame.mixer.Sound.play(BUTTON_SFX)
                     elif exit_button.collidepoint(mouse_pos) and not howto_screen:
                         pygame.quit()
+                        pygame.mixer.Sound.play(BUTTON_SFX)
                     elif howto_screen:
                         howto_screen = False
+                        pygame.mixer.Sound.play(BUTTON_SFX)
                 elif event.type == pygame.QUIT:
                     pygame.quit()
             
