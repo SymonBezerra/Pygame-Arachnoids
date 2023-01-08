@@ -23,15 +23,13 @@ enemies = pygame.sprite.Group()
 def start_nodes() -> None:
     nodes.empty()
     # initial node grid 
-    nodes.add(Node(2,4))
-    nodes.add(Node(2,5))
-    nodes.add(Node(2,3))
-    nodes.add(Node(3,4))
-    nodes.add(Node(1,4))
-    nodes.add(Node(1,3))
-    nodes.add(Node(1,5))
-    nodes.add(Node(3,3))
-    nodes.add(Node(3,5))
+    for i in range(10):
+        for j in range(10):
+            node = Node(i,j)
+            nodes.add(node)
+            if (i,j) in ((2,4), (2,5), (2,3), (3,4), (1,4), 
+            (1,3), (1,5), (3,3), (3,5)): # initial grid
+                node.visible = True
 
 start_nodes()
 
@@ -122,6 +120,8 @@ if __name__ == "__main__":
                                             vector_x, vector_y,
                                             bullet_angle))
 
+                    pygame.mixer.Sound.play(BULLET_SFX)
+
             keys = pygame.key.get_pressed()
             directions = []
             if keys[K_w] and not keys[K_s]:
@@ -170,11 +170,13 @@ if __name__ == "__main__":
                     if game_wave < 30: game_wave += 5
                     wave_number += 1
                     wave_count = 0
+                    pygame.mixer.Sound.play(WAVE_SFX)
                 else: wave_count += 1
             for enemy in enemies:
                 if enemy.rect.colliderect(game_spider.rect) and game_spider.living and game_spider.respawn_count == 0:
                     game_spider.lives -= 1
                     game_spider.living = False
+                    pygame.mixer.Sound.play(DEATH_SFX)
                 n: Node
                 for n in nodes:
                     if enemy.rect.collidepoint(n.rect.x + 25, n.rect.y + 25) and game_spider.living:
@@ -227,14 +229,18 @@ if __name__ == "__main__":
                 elif event.type == MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
                     if return_button.collidepoint(mouse_pos):
+                        pygame.mixer.Sound.play(BUTTON_SFX)
                         game_over, title_screen = False, True
                         game_spider.score = 0
-                        game_spider.rect.x = 250
-                        game_spider.rect.y = 250
+                        game_spider.x = 250
+                        game_spider.y = 250
+                        game_spider.update([], nodes)
+                        game_spider.living = True
                         game_wave = 5
                         wave_number = 1
                         game_spider.lives = 3
                         start_nodes()
                         enemies.empty()
+                        bullets.empty()
                         
             pygame.display.flip()
