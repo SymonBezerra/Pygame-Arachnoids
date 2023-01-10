@@ -49,10 +49,10 @@ if __name__ == "__main__":
     pygame.init()
     pygame.mixer.init()
 
-    BUTTON_SFX = pygame.mixer.Sound("sfx/button_select.wav")
-    WAVE_SFX = pygame.mixer.Sound("sfx/new_wave.wav")
-    BULLET_SFX = pygame.mixer.Sound("sfx/projectile_shoot.wav")
-    DEATH_SFX = pygame.mixer.Sound("sfx/spider_death.wav")
+    BUTTON_SFX = pygame.mixer.Sound("sfx/button_select.ogg")
+    WAVE_SFX = pygame.mixer.Sound("sfx/new_wave.ogg")
+    BULLET_SFX = pygame.mixer.Sound("sfx/projectile_shoot.ogg")
+    DEATH_SFX = pygame.mixer.Sound("sfx/spider_death.ogg")
 
     GAME_FONT = pygame.font.Font("gfx/FiraCode-VariableFont_wght.ttf", 20)
 
